@@ -23,34 +23,34 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-public class  Sample4 extends JFrame implements ActionListener {
+public class App extends JFrame implements ActionListener {
 	/* 
 	 JFrame （ウィンドウ）を使い, その上に描画用のパネル, ボタン, ツールバー
 	　を配置する。
 	　ボタンを押すとその図形がパネル上に描画される。
 	*/
 	private SamplePanel sp;
-	private JButton bt[] = new JButton[3];
+	private JButton bt[] = new JButton[6];
 	private JToolBar tl;
 	private Icon ic;
 //	private Shape sh;
 	private int state; // 描画図形種類を表す
 
 	public static void main(String[] args) {
-		 Sample4 sm = new  Sample4();
+		 App sm = new  App();
 	}
 	
-	public  Sample4() {
+	public App() {
 		/*
 		 コンストラクタではフレーム（ウィンドウ）の設定, 
 		 ボタンとパネルの配置を行う。
 		 */
-		super("サンプル"); 		// タイトルを表示
+		super("Drawing Shape"); 		// タイトルを表示
 		sp = new SamplePanel();
 		tl = new JToolBar();
 		
 		for(int i=0; i<bt.length; i++) {
-			ic = new ImageIcon(Shape.name[i] + ".gif");
+			ic = new ImageIcon("../icon/"+Shape.name[i] + ".gif");
 			bt[i] = new JButton(ic);
 			bt[i].setToolTipText(Shape.name[i]);
 			bt[i].addActionListener(this);
@@ -80,8 +80,14 @@ public class  Sample4 extends JFrame implements ActionListener {
 			state = Shape.CIRCLE;
 		} else if (tmp == bt[1]) {
 			state = Shape.RECTANGLE;
-		} else {
+		} else if (tmp == bt[2]){
 			state = Shape.LINE;
+		} else if (tmp == bt[3]){
+			state = Shape.TRIANGLE;
+		} else if (tmp == bt[4]){
+			state = Shape.STAR;
+		} else {
+			state = Shape.HEXAGON;
 		}
 		/*
 		 * ボタンによって、CIRCLE か RECTANGLE か LINE を指定する．

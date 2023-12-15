@@ -8,6 +8,7 @@ import java.awt.Graphics;
 public class Circle implements Shape {
 	private int x;
 	private int y;
+	private int size = 10;
 	
 	public Circle(int x, int y) {
 		this.x = x;
@@ -17,7 +18,7 @@ public class Circle implements Shape {
 	public int getX() { return x; }
 	public int getY() { return y; }
 	public void draw(Graphics g) {
-		g.drawOval(x, y, 10, 10);
+		g.fillOval(x, y, size, size);
 	}
 	
 }

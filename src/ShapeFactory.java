@@ -18,8 +18,14 @@ public class ShapeFactory {
 			sh = new Circle(x, y);
 		} else if(state == Shape.RECTANGLE) {
 			sh = new Rectangle(x, y);
-		} else {
+		} else if(state == Shape.LINE){
 			sh = new Line(x, y);
+		} else if(state == Shape.TRIANGLE){
+			sh = new Triangle(x, y);
+		} else if(state == Shape.STAR){
+			sh = new Star(x, y);
+		} else {
+			sh = new Hexagon(x, y);
 		}
 		return sh;
 	}
