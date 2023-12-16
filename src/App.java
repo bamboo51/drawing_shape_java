@@ -13,15 +13,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class App extends JFrame implements ActionListener {
 	/* 
@@ -35,6 +43,11 @@ public class App extends JFrame implements ActionListener {
 	private Icon ic;
 //	private Shape sh;
 	private int state; // 描画図形種類を表す
+	private JToolBar ts;
+
+	// create save button
+	Icon saveIcon = new ImageIcon("../icon/Save.gif");
+	JButton saveButton = new JButton(saveIcon);
 
 	public static void main(String[] args) {
 		 App sm = new  App();
@@ -48,6 +61,8 @@ public class App extends JFrame implements ActionListener {
 		super("Drawing Shape"); 		// タイトルを表示
 		sp = new SamplePanel();
 		tl = new JToolBar();
+		ts = new JToolBar();
+		saveButton.addActionListener(this);
 		
 		for(int i=0; i<bt.length; i++) {
 			ic = new ImageIcon("../icon/"+Shape.name[i] + ".gif");
@@ -60,9 +75,12 @@ public class App extends JFrame implements ActionListener {
 			そして、ツールバーに各ボタンを追加
 			*/
 		}
+		ts.add(saveButton);
 		
 		add(tl, BorderLayout.NORTH); 	// ツールバー（ボタン群）を上部に配置
 		add(sp, BorderLayout.CENTER);	// パネルを中央に配置
+		add(saveButton, BorderLayout.SOUTH);
+		
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);	// ウィンドウを閉じたら終了
 		setSize(600, 600);
@@ -86,13 +104,50 @@ public class App extends JFrame implements ActionListener {
 			state = Shape.TRIANGLE;
 		} else if (tmp == bt[4]){
 			state = Shape.STAR;
-		} else {
+		} else if (tmp == bt[5]){
 			state = Shape.HEXAGON;
+		} else if (tmp == saveButton){
+			saveDrawing();
 		}
+
 		/*
 		 * ボタンによって、CIRCLE か RECTANGLE か LINE を指定する．
 		 */
 	}
+
+	public void saveDrawing() {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+        fileChooser.setFileFilter(filter);
+
+        int returnVal = fileChooser.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            if (!filePath.toLowerCase().endsWith(".png")) {
+                filePath += ".png"; // Ensure the file has a .png extension
+            }
+            saveAsPNG(filePath, sp.getShapeList());
+        }
+    }
+
+    public void saveAsPNG(String filePath, List<Shape> shapelist) {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+
+        // Draw shapes from the shapelist
+        for (Shape sh : shapelist) {
+            sh.draw(g2d);
+        }
+
+        g2d.dispose();
+
+        try {
+            ImageIO.write(image, "png", new File(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	public class SamplePanel extends JPanel{
 		private ArrayList<Shape> shapelist = new ArrayList<Shape>();
@@ -150,6 +205,10 @@ public class App extends JFrame implements ActionListener {
 				shapelist.add(sh);
 				repaint();
 			}
+		}
+
+		public ArrayList<Shape> getShapeList(){
+			return shapelist;
 		}
 	}
 }
