@@ -9,11 +9,13 @@
 	それによって、図形の種類が増えた場合にも対応しやすくなる． 
  */
 
+ import java.awt.*;
+
 public class ShapeFactory {
 	private Shape sh;
 	
 	// state の値に従って、クラスを作り分ける. 
-	public Shape createShape(int state, int x, int y) {
+	public Shape createShape(int state, int x, int y, Color color) {
 		if ( state == Shape.CIRCLE) {
 			sh = new Circle(x, y);
 		} else if(state == Shape.RECTANGLE) {
@@ -27,6 +29,8 @@ public class ShapeFactory {
 		} else {
 			sh = new Hexagon(x, y);
 		}
+
+		sh.setColor(color);
 		return sh;
 	}
 }

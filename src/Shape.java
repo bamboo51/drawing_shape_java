@@ -1,4 +1,5 @@
 // Shape.java 
+import java.awt.Color;
 import java.awt.Graphics;
 
 // クラス Shape を抽象クラスの代わりに、インタフェースで表現
@@ -29,4 +30,5 @@ public interface Shape {
 	public abstract int getX();				// 抽象メソッドのみ宣言している
 	public abstract int getY();
 	public abstract void draw(Graphics g);
+	public abstract void setColor(Color color);
 }
