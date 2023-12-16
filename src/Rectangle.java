@@ -1,6 +1,6 @@
 // Rectangle.java
 
-import java.awt.Graphics;
+import java.awt.*;
 
 //Shape を抽象クラスではなくインタフェースとして定義した版
 //extends ではなく、implements を使用．
@@ -8,6 +8,14 @@ import java.awt.Graphics;
 public class Rectangle implements Shape {
 	private int x;
 	private int y;
+	private Color color;
+	public void setColor(Color color){
+		this.color = color;
+	}
+
+	public Color getColor(){
+		return color;
+	}
 		
 	public Rectangle(int x, int y) {
 		this.x = x;
@@ -17,6 +25,7 @@ public class Rectangle implements Shape {
 	public int getX() { return x; }
 	public int getY() { return y; }
 	public void draw(Graphics g) {
-		g.drawRect(x, y, 10, 10);
+		g.setColor(color);
+		g.fillRect(x, y, 10, 10);
 	}	
 }

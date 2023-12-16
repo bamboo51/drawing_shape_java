@@ -8,6 +8,7 @@
 */
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -44,6 +46,11 @@ public class App extends JFrame implements ActionListener {
 //	private Shape sh;
 	private int state; // 描画図形種類を表す
 	private JToolBar ts;
+	private Color selectedColor = Color.BLACK; //default color
+
+	// color panel components
+	private JPanel colorPanel;
+	private JButton colorButton;
 
 	// create save button
 	Icon saveIcon = new ImageIcon("../icon/Save.gif");
@@ -75,15 +82,22 @@ public class App extends JFrame implements ActionListener {
 			そして、ツールバーに各ボタンを追加
 			*/
 		}
+
+		// Create color panel components
+        colorPanel = new JPanel();
+        colorButton = new JButton("Choose Color");
+        colorButton.addActionListener(this);
+        colorPanel.add(colorButton);
+
 		ts.add(saveButton);
 		
 		add(tl, BorderLayout.NORTH); 	// ツールバー（ボタン群）を上部に配置
 		add(sp, BorderLayout.CENTER);	// パネルを中央に配置
 		add(saveButton, BorderLayout.SOUTH);
-		
+		add(colorPanel, BorderLayout.EAST);
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);	// ウィンドウを閉じたら終了
-		setSize(600, 600);
+		setSize(1920, 1080);
 		setVisible(true);				// 表示開始
 	}
 	
@@ -108,12 +122,19 @@ public class App extends JFrame implements ActionListener {
 			state = Shape.HEXAGON;
 		} else if (tmp == saveButton){
 			saveDrawing();
+		} else {
+			selectColor();
 		}
 
 		/*
 		 * ボタンによって、CIRCLE か RECTANGLE か LINE を指定する．
 		 */
 	}
+
+	public void selectColor() {
+        selectedColor = JColorChooser.showDialog(this, "Choose Color", selectedColor);
+        // You can update the color of the existing shapes or set the color for new shapes as needed.
+    }
 
 	public void saveDrawing() {
         JFileChooser fileChooser = new JFileChooser();
@@ -201,7 +222,7 @@ public class App extends JFrame implements ActionListener {
 				*/
 				
 				ShapeFactory sf = new ShapeFactory();
-				Shape sh = sf.createShape(state, e.getX(), e.getY());
+				Shape sh = sf.createShape(state, e.getX(), e.getY(), selectedColor);
 				shapelist.add(sh);
 				repaint();
 			}

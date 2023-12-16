@@ -3,6 +3,14 @@ import java.awt.*;
 public class Triangle implements Shape{
     private int x;
     private int y;
+    private Color color;
+	public void setColor(Color color){
+		this.color = color;
+	}
+
+	public Color getColor(){
+		return color;
+	}
 
     public Triangle(int x, int y){
         this.x = x;
@@ -12,6 +20,7 @@ public class Triangle implements Shape{
     public int getX(){return x;}
     public int getY(){return y;}
     public void draw(Graphics g){
+        g.setColor(color);
         int size = 10;
         int[] xPoints = new int[3];
         int[] yPoints = new int[3];
