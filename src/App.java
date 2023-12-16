@@ -57,7 +57,7 @@ public class App extends JFrame implements ActionListener {
 	JButton saveButton = new JButton(saveIcon);
 
 	public static void main(String[] args) {
-		 App sm = new  App();
+		App sm = new  App();
 	}
 	
 	public App() {
