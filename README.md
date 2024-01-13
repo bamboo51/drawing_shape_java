@@ -1,6 +1,6 @@
 # Simple Drawing Tool
 
-This Java project, `Sample4.java`, is a simple drawing tool that allows users to draw various shapes on a frame by clicking buttons. It utilizes the Factory pattern to handle the creation of different shapes and introduces a `ShapeFactory` class for managing the creation process.
+This Java project, `App.java`, is a simple drawing tool that allows users to draw various shapes on a frame by clicking buttons. It utilizes the Factory pattern to handle the creation of different shapes and introduces a `ShapeFactory` class for managing the creation process.
 
 ## Overview
 
